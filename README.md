@@ -1,0 +1,2 @@
+# Practice_Forum_Perry
+练手用的小型网络论坛项目，基于Maven创建的Java Web以及Mysql
