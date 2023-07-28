@@ -31,7 +31,7 @@ public class DataSourceUtil {
      * 
      * @return
      */
-    public DataSource getDataSource() {
+    public static DataSource getDataSource() {
         return dataSource;
     }
 }
