@@ -1,0 +1,16 @@
+# 忽略编译产生的文件
+*.class
+*.jar
+*.war
+*.ear
+
+# 忽略IDE生成的文件和目录
+/.idea
+/.vscode
+
+# 忽略构建输出目录
+/target
+
+# 忽略临时文件
+*.tmp
+*.log
