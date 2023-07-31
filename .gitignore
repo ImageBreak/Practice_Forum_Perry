@@ -5,11 +5,10 @@
 *.ear
 
 # 忽略IDE生成的文件和目录
-/.idea
-/.vscode
+/perry_forum/.vscode
 
 # 忽略构建输出目录
-/target
+/perry_forum/target
 
 # 忽略临时文件
 *.tmp
