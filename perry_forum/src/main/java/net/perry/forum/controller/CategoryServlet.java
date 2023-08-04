@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.perry.forum.domain.Category;
 import net.perry.forum.service.CategoryService;
-import net.perry.forum.service.impl.CategoryServiceImlp;
+import net.perry.forum.service.impl.CategoryServiceImpl;
 
 @WebServlet(name = "categoryServlet", urlPatterns = { "/category" })
 public class CategoryServlet extends BaseServlet {
 
-    private CategoryService categoryService = new CategoryServiceImlp();
+    private CategoryService categoryService = new CategoryServiceImpl();
     /**
      * 返回全部分类
      * 
@@ -22,7 +22,6 @@ public class CategoryServlet extends BaseServlet {
      */
     public void list(HttpServletRequest req, HttpServletResponse resp) {
         List<Category> list = categoryService.list();
-        //System.out.println(list.toString());
         req.setAttribute("categoryList", list);
     }
 }

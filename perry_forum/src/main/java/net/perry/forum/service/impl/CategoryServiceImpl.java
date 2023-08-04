@@ -6,7 +6,7 @@ import net.perry.forum.dao.CategoryDao;
 import net.perry.forum.domain.Category;
 import net.perry.forum.service.CategoryService;
 
-public class CategoryServiceImlp implements CategoryService{
+public class CategoryServiceImpl implements CategoryService{
 
     private CategoryDao categoryDao = new CategoryDao();
     @Override
