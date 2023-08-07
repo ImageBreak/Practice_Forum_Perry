@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.perry.forum.domain.Reply;
 import net.perry.forum.domain.Topic;
 import net.perry.forum.dto.PageDTO;
 import net.perry.forum.service.TopicService;
@@ -33,5 +34,32 @@ public class TopicServlet extends BaseServlet {
         PageDTO<Topic> pageDTO = topicService.listTopicPageByCid(cId, page, pageSize);
 
         req.setAttribute("topicPage", pageDTO);
+    }
+
+    /**
+     * 查看主题的全部回复
+     * @param req
+     * @param resp
+     */
+    public void findDetailById(HttpServletRequest req, HttpServletResponse resp){
+        //  获取topic的id
+        int topicId = Integer.parseInt(req.getParameter("topic_id"));
+
+        // 默认第一页
+        int page = 1;
+
+        String currentPage = req.getParameter("page");
+        if (currentPage != null && currentPage != "") {
+            page = Integer.parseInt(currentPage);
+        }
+
+        Topic topic = topicService.findById(topicId);
+        PageDTO<Reply> pageDTO = topicService.findReplyPageByTopicId(topicId, page, pageSize);
+
+        req.setAttribute("topic", topic);
+        req.setAttribute("replyPage", pageDTO);
+
+        System.out.println(topic.toString());
+        System.out.print(pageDTO.toString());
     }
 }
