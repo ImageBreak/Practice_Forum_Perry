@@ -44,4 +44,12 @@ public class UserServiceImpl implements UserService {
         int index = random.nextInt(size);
         return headImg[index];
     }
+
+    @Override
+    public User login(String phone, String pwd) {
+        
+        String md5pwd = CommonUtil.MD5(pwd);
+        User user = userDao.findByPhoneAndPwd(phone,md5pwd);
+        return user;
+    }
 }
