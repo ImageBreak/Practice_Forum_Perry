@@ -75,6 +75,13 @@ public class TopicDao {
         return topic;
     }
 
+    /**
+     * 添加主题
+     * 
+     * @param topic
+     * @return
+     * @throws Exception
+     */
     public int save(Topic topic) throws Exception {
         String sql = "insert into topic(c_id,title,content,pv,user_id,username,user_img,create_time,update_time,hot,`delete`) values(?,?,?,?,?,?,?,?,?,?,?)";
         Object[] params = {
@@ -100,6 +107,31 @@ public class TopicDao {
             throw new Exception();
         }
         return i;
+    }
+
+    /**
+     * 找到最新的楼层
+     * 
+     * @param topicId
+     * @return
+     */
+    public int findLatestFloorByTopicId(int topicId) {
+        String sql = "select floor from reply where topic_id = ? order by floor desc limit 1";
+        int defaultFloor = 1;
+        Integer floor = null;
+        try {
+            floor = (Integer) queryRunner.query(sql, new ScalarHandler<>(), topicId);
+            if (floor == null) {
+                return defaultFloor;
+            } else {
+                defaultFloor = floor.intValue() + 1;
+                return defaultFloor;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 }

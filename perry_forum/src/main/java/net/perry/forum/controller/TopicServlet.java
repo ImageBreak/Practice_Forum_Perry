@@ -72,11 +72,9 @@ public class TopicServlet extends BaseServlet {
     public void addTopic(HttpServletRequest req, HttpServletResponse resp) {
         User loginUser = (User) req.getSession().getAttribute("loginUser");
         if (loginUser == null) {
-            System.out.println("请登录！！");
             req.setAttribute("msg", "请登录");
             // 页面跳转 TODO
         } else {
-            System.out.println("登录成功！！");
             String title = req.getParameter("title");
             String content = req.getParameter("content");
             int cId = Integer.parseInt(req.getParameter("c_id"));
@@ -87,6 +85,30 @@ public class TopicServlet extends BaseServlet {
                 // 发布主题成功
             } else {
                 // 发布主题失败
+            }
+        }
+    }
+
+    /**
+     * 回复主题
+     * @param req
+     * @param resp
+     */
+    public void replyByTopicId(HttpServletRequest req, HttpServletResponse resp){
+        User loginUser = (User) req.getSession().getAttribute("loginUser");
+        if (loginUser == null) {
+            req.setAttribute("msg", "请登录");
+            // 页面跳转 TODO
+        } else {
+            int topicId = Integer.parseInt(req.getParameter("topic_id"));
+            String content = req.getParameter("content");
+
+            int rows = topicService.replyByTopicId(loginUser, topicId, content);
+
+            if (rows == 1) {
+                // 回复成功
+            } else {
+                // 回复失败
             }
         }
     }

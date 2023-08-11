@@ -14,4 +14,6 @@ public interface TopicService {
     PageDTO<Reply> findReplyPageByTopicId(int topicId, int page, int pagesize);
 
     int addTopic(User loginUser, String title, String content, int cId);
+
+    int replyByTopicId(User loginUser, int topicId, String content);
 }

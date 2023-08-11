@@ -7,13 +7,10 @@ import org.apache.commons.dbutils.BeanProcessor;
 import org.apache.commons.dbutils.GenerousBeanProcessor;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.RowProcessor;
-import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import net.perry.forum.domain.Category;
 import net.perry.forum.domain.Reply;
-import net.perry.forum.domain.Topic;
 import net.perry.forum.util.DataSourceUtil;
 
 public class ReplyDao {
@@ -24,6 +21,7 @@ public class ReplyDao {
 
     /**
      * 根据topicId查询回复总数
+     * 
      * @param topicId
      * @return
      */
@@ -41,6 +39,7 @@ public class ReplyDao {
 
     /**
      * 分页查询
+     * 
      * @param topicId
      * @param from
      * @param pageSize
@@ -60,6 +59,7 @@ public class ReplyDao {
 
     /**
      * 返回分类列表
+     * 
      * @return
      */
     public List<Reply> list() {
@@ -72,5 +72,37 @@ public class ReplyDao {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * 新增回复
+     * 
+     * @param reply
+     * @return
+     * @throws Exception
+     */
+    public int save(Reply reply) throws Exception {
+        String sql = "insert into reply(topic_id,floor,content,user_id,username,user_img,create_time,update_time,`delete`) values(?,?,?,?,?,?,?,?,?)";
+        Object[] params = {
+                reply.gettId(),
+                reply.getFloor(),
+                reply.getContent(),
+                reply.getUserId(),
+                reply.getUsername(),
+                reply.getUserImg(),
+                reply.getCreateTime(),
+                reply.getUpdateTime(),
+                reply.getDelete()
+        };
+
+        int i = 0;
+        try {
+            i = queryRunner.update(sql, params);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            throw new Exception();
+        }
+        return i;
     }
 }

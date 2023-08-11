@@ -46,7 +46,7 @@ public class TopicServiceImpl implements TopicService{
         //查询总的回复
         int totalRecordNum = replyDao.countTotalReplyByTopicId(topicId);
         int from = (page - 1) * pageSize;
-         //分页查询
+        //分页查询
         List<Reply> replyList = replyDao.findListByTopicId(topicId, from ,pageSize);
 
         PageDTO<Reply> pageDTO = new PageDTO<>(page, pageSize, totalRecordNum);
@@ -83,6 +83,38 @@ public class TopicServiceImpl implements TopicService{
         }
 
         return rows;
+    }
+
+    @Override
+    public int replyByTopicId(User loginUser, int topicId, String content) {
+        int floor = topicDao.findLatestFloorByTopicId(topicId);
+        if(floor == -1){
+            //获取楼层出现问题
+            return 0;
+        }
+
+        Reply reply = new Reply();
+        reply.settId(topicId);
+        reply.setFloor(floor);
+        reply.setContent(content);
+        reply.setUserId(loginUser.getId());
+        reply.setUsername(loginUser.getUsername());
+        reply.setUserImg(loginUser.getImg());
+        reply.setCreateTime(LocalDateTime.now());
+        reply.setUpdateTime(LocalDateTime.now());
+        reply.setDelete(0);
+
+        int rows = 0;
+        try {
+            rows = replyDao.save(reply);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+
+        return rows;
+
+
     }
     
 }
