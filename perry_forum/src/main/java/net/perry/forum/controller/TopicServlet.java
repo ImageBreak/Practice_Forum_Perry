@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.perry.forum.domain.Reply;
 import net.perry.forum.domain.Topic;
+import net.perry.forum.domain.User;
 import net.perry.forum.dto.PageDTO;
 import net.perry.forum.service.TopicService;
 import net.perry.forum.service.impl.TopicServiceImpl;
@@ -38,11 +39,12 @@ public class TopicServlet extends BaseServlet {
 
     /**
      * 查看主题的全部回复
+     * 
      * @param req
      * @param resp
      */
-    public void findDetailById(HttpServletRequest req, HttpServletResponse resp){
-        //  获取topic的id
+    public void findDetailById(HttpServletRequest req, HttpServletResponse resp) {
+        // 获取topic的id
         int topicId = Integer.parseInt(req.getParameter("topic_id"));
 
         // 默认第一页
@@ -59,7 +61,33 @@ public class TopicServlet extends BaseServlet {
         req.setAttribute("topic", topic);
         req.setAttribute("replyPage", pageDTO);
 
-        System.out.println(topic.toString());
-        System.out.print(pageDTO.toString());
+    }
+
+    /**
+     * 发布主题
+     * 
+     * @param req
+     * @param resp
+     */
+    public void addTopic(HttpServletRequest req, HttpServletResponse resp) {
+        User loginUser = (User) req.getSession().getAttribute("loginUser");
+        if (loginUser == null) {
+            System.out.println("请登录！！");
+            req.setAttribute("msg", "请登录");
+            // 页面跳转 TODO
+        } else {
+            System.out.println("登录成功！！");
+            String title = req.getParameter("title");
+            String content = req.getParameter("content");
+            int cId = Integer.parseInt(req.getParameter("c_id"));
+
+            int rows = topicService.addTopic(loginUser, title, content, cId);
+
+            if (rows == 1) {
+                // 发布主题成功
+            } else {
+                // 发布主题失败
+            }
+        }
     }
 }

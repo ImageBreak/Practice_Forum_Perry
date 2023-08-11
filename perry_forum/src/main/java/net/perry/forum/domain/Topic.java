@@ -20,6 +20,15 @@ public class Topic {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private int hot;
+    private int delete;
+
+    public int getDelete() {
+        return delete;
+    }
+
+    public void setDelete(int delete) {
+        this.delete = delete;
+    }
 
     public int getId() {
         return id;
@@ -113,7 +122,7 @@ public class Topic {
     public String toString() {
         return "Topic [id=" + id + ", cId=" + cId + ", title=" + title + ", content=" + content + ", pv=" + pv
                 + ", userId=" + userId + ", username=" + username + ", userImg=" + userImg + ", createTime="
-                + createTime + ", updateTime=" + updateTime + ", hot=" + hot + "]";
+                + createTime + ", updateTime=" + updateTime + ", hot=" + hot + ", delete=" + delete + "]";
     }
 
 }
