@@ -16,4 +16,6 @@ public interface TopicService {
     int addTopic(User loginUser, String title, String content, int cId);
 
     int replyByTopicId(User loginUser, int topicId, String content);
+
+    void addOnePv(int topicId);
 }

@@ -134,4 +134,23 @@ public class TopicDao {
         return -1;
     }
 
+    /**
+     * 更新浏览量
+     * @param topicId
+     * @param pv
+     * @param old_pv
+     * @return
+     */
+    public int updatePv(int topicId, int pv, int old_pv) {
+        String sql = "update topic set pv=? where pv=? and id=?";
+        int rows = 0;
+        try {
+            rows = queryRunner.update(sql, pv, old_pv, topicId);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return rows;
+    }
+
 }

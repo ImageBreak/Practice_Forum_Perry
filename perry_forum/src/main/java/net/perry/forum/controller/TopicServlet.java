@@ -55,6 +55,17 @@ public class TopicServlet extends BaseServlet {
             page = Integer.parseInt(currentPage);
         }
 
+        //处理浏览量递增，如果是同个session内，只算一次
+        String sessionReadKey = "is_read"+topicId;
+        Boolean isRead = (Boolean) req.getSession().getAttribute(sessionReadKey);
+
+        if(isRead == null){
+            req.getSession().setAttribute(sessionReadKey, true);
+            //新增一个pv
+            topicService.addOnePv(topicId);
+        }
+
+
         Topic topic = topicService.findById(topicId);
         PageDTO<Reply> pageDTO = topicService.findReplyPageByTopicId(topicId, page, pageSize);
 
