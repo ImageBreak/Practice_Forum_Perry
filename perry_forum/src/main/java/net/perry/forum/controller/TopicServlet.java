@@ -1,5 +1,8 @@
 package net.perry.forum.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,17 +11,21 @@ import net.perry.forum.domain.Reply;
 import net.perry.forum.domain.Topic;
 import net.perry.forum.domain.User;
 import net.perry.forum.dto.PageDTO;
+import net.perry.forum.service.CategoryService;
 import net.perry.forum.service.TopicService;
+import net.perry.forum.service.impl.CategoryServiceImpl;
 import net.perry.forum.service.impl.TopicServiceImpl;
 
 @WebServlet(name = "topicServlet", urlPatterns = { "/topic" })
 public class TopicServlet extends BaseServlet {
 
     TopicService topicService = new TopicServiceImpl();
+    CategoryService categoryService = new CategoryServiceImpl();
+
     /**
      * 默认分页大小
      */
-    private static final int pageSize = 2;
+    private static final int pageSize = 4;
 
     public void list(HttpServletRequest req, HttpServletResponse resp) {
 
@@ -34,7 +41,18 @@ public class TopicServlet extends BaseServlet {
 
         PageDTO<Topic> pageDTO = topicService.listTopicPageByCid(cId, page, pageSize);
 
+        req.getSession().setAttribute("categoryList", categoryService.list());
+        req.getSession().setAttribute("currentCategoryId", cId);
         req.setAttribute("topicPage", pageDTO);
+        try {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
