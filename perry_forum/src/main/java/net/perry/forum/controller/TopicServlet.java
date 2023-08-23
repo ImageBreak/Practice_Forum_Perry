@@ -25,7 +25,7 @@ public class TopicServlet extends BaseServlet {
     /**
      * 默认分页大小
      */
-    private static final int pageSize = 4;
+    private static final int pageSize = 3;
 
     public void list(HttpServletRequest req, HttpServletResponse resp) {
 
@@ -89,6 +89,11 @@ public class TopicServlet extends BaseServlet {
 
         req.setAttribute("topic", topic);
         req.setAttribute("replyPage", pageDTO);
+        try {
+            req.getRequestDispatcher("/topic_detail.jsp").forward(req, resp);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
     }
 
