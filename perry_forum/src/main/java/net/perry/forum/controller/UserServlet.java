@@ -1,8 +1,10 @@
 package net.perry.forum.controller;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,9 +33,25 @@ public class UserServlet extends BaseServlet {
 
         if(user != null){
             req.getSession().setAttribute("loginUser", user);
+            try {
+            req.getRequestDispatcher("/topic?method=list&c_id=1").forward(req, resp);
+        } catch (ServletException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         }else{
             req.setAttribute("msg","用户名或者密码不正确");
+            try {
+                req.getRequestDispatcher("/user/login.jsp").forward(req, resp);
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
+            }
         }
+        
     }
 
     /**
@@ -43,7 +61,15 @@ public class UserServlet extends BaseServlet {
      */
     public void logout(HttpServletRequest req, HttpServletResponse resp){
         req.getSession().invalidate();
-        //页面跳转TODO
+        try {
+            req.getRequestDispatcher("/topic?method=list&c_id=1").forward(req, resp);
+        } catch (ServletException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -66,10 +92,18 @@ public class UserServlet extends BaseServlet {
 
         int i = userService.register(user);
 
-        if(i > 0){
-            //注册成功，跳转到登陆界面 TODO
+        try {
+            if(i > 0){
+            //注册成功，跳转到登陆界面
+            req.getRequestDispatcher("/user/login.jsp").forward(req, resp);
         }else{
-            //注册失败， 跳转到失败页面 TODO
+            //注册失败， 跳转到失败页面
+            req.getRequestDispatcher("/user/register.jsp").forward(req, resp);
         }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        
     }
 }

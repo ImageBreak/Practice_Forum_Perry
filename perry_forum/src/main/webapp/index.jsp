@@ -34,7 +34,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <c:when test="${empty loginUser}">
             <li class="nav-item ms-auto" role="presentation">
               <a
-                class="btn btn-outline-primary"
+                class="nav-link btn-outline-primary"
                 role="tab"
                 href="${pageContext.request.contextPath}/user/register.jsp"
               >
@@ -43,7 +43,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             </li>
             <li class="nav-item" role="presentation">
               <a
-                class="btn btn-outline-primary"
+                class="nav-link btn-outline-primary"
                 role="tab"
                 href="${pageContext.request.contextPath}/user/login.jsp"
               >
@@ -55,14 +55,18 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             <li class="nav-item ms-auto" role="presentation">
               <img
                 src="${loginUser.img}"
-                class="img-fluid rounded-top"
+                class="rounded"
+                width="35px"
+                height="35px"
                 alt=""
               />
             </li>
-            <li class="nav-item" role="presentation">${loginUser.username}</li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" href="#">${loginUser.username}</a>
+            </li>
             <li class="nav-item" role="presentation">
               <a
-                class="nav-link"
+                class="nav-link btn-outline-primary"
                 role="tab"
                 href="${pageContext.request.contextPath}/publish.jsp"
               >
@@ -71,7 +75,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             </li>
             <li class="nav-item" role="presentation">
               <a
-                class="nav-link"
+                class="nav-link btn-outline-primary"
                 role="tab"
                 href="${pageContext.request.contextPath}/user?method=logout"
               >
