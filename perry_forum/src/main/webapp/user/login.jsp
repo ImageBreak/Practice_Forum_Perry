@@ -48,7 +48,7 @@
                 <c:otherwise>${msg}</c:otherwise>
             </c:choose>
             </div>
-            
+        </form>
     </div>
 </body>
 </html>

@@ -83,16 +83,15 @@ public class TopicServlet extends BaseServlet {
             topicService.addOnePv(topicId);
         }
 
-
         Topic topic = topicService.findById(topicId);
         PageDTO<Reply> pageDTO = topicService.findReplyPageByTopicId(topicId, page, pageSize);
 
-        req.setAttribute("topic", topic);
+        req.getSession().setAttribute("topic", topic);
         req.setAttribute("replyPage", pageDTO);
         try {
             req.getRequestDispatcher("/topic_detail.jsp").forward(req, resp);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
     }
@@ -105,9 +104,11 @@ public class TopicServlet extends BaseServlet {
      */
     public void addTopic(HttpServletRequest req, HttpServletResponse resp) {
         User loginUser = (User) req.getSession().getAttribute("loginUser");
-        if (loginUser == null) {
+        try {
+            if (loginUser == null) {
             req.setAttribute("msg", "请登录");
-            // 页面跳转 TODO
+            // 页面跳转
+            req.getRequestDispatcher("/user/login.jsp").forward(req, resp);
         } else {
             String title = req.getParameter("title");
             String content = req.getParameter("content");
@@ -117,9 +118,15 @@ public class TopicServlet extends BaseServlet {
 
             if (rows == 1) {
                 // 发布主题成功
+                req.getRequestDispatcher("topic?method=list&c_id="+cId).forward(req, resp);
             } else {
                 // 发布主题失败
+                req.setAttribute("msg", "发布失败喽，杂鱼");
+                req.getRequestDispatcher("publish.jsp").forward(req, resp);
             }
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -130,9 +137,11 @@ public class TopicServlet extends BaseServlet {
      */
     public void replyByTopicId(HttpServletRequest req, HttpServletResponse resp){
         User loginUser = (User) req.getSession().getAttribute("loginUser");
-        if (loginUser == null) {
+        try {
+            if (loginUser == null) {
             req.setAttribute("msg", "请登录");
-            // 页面跳转 TODO
+            // 页面跳转
+            req.getRequestDispatcher("/user/login.jsp").forward(req, resp);
         } else {
             int topicId = Integer.parseInt(req.getParameter("topic_id"));
             String content = req.getParameter("content");
@@ -141,9 +150,15 @@ public class TopicServlet extends BaseServlet {
 
             if (rows == 1) {
                 // 回复成功
+                req.getRequestDispatcher("topic?method=findDetailById&topic_id="+topicId).forward(req, resp);
             } else {
                 // 回复失败
+                req.setAttribute("msg", "回复失败喽，杂鱼");
+                req.getRequestDispatcher("reply.jsp").forward(req, resp);
             }
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
